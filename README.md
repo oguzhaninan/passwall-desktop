@@ -1,6 +1,6 @@
-# gpass-desktop
+# passwall-desktop
 
-> GPass Desktop App
+> PassWall Desktop App
 
 #### Build Setup
 

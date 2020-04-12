@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import CheckAuth from './check-auth'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: require('@/views/Login').default,
+      meta: {
+        auth: true
+      }
+    },
     {
       path: '/',
       name: 'Home',
-      component: require('@/components/Home').default
+      component: require('@/views/Home').default
     },
     {
       path: '*',
@@ -16,3 +24,7 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach(CheckAuth)
+
+export default router

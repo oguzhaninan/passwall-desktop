@@ -2,7 +2,7 @@
   <div id="wrapper">
     <header>
       <div class="logo">
-        <h1>GPass</h1>
+        <h1>PassWall</h1>
         <a-button shape="circle" size="small" icon="reload" />
       </div>
 
@@ -10,12 +10,13 @@
     </header>
     <main>
       <div class="table-wrapper">
+        <a-input-search size="small" placeholder="Search URL or Username" style="margin-bottom: 10px;" @search="onSearch" />
         <a-table
           size="small"
           :columns="columns"
           :dataSource="data"
-          :pagination="{ pageSize: 6 }"
-          :scroll="{ y: 250 }"
+          :pagination="{ pageSize: 10000, hideOnSinglePage: true }"
+          :scroll="{ y: 255 }"
           rowKey="ID"
         >
           <template slot="Password" slot-scope="text, record">
@@ -28,7 +29,7 @@
 </template>
 
 <script>
-import PasswordField from './PasswordField'
+import PasswordField from '../components/PasswordField'
 
 const data = [
   {
@@ -146,61 +147,9 @@ export default {
   },
 
   methods: {
-    open(link) {
-      require('electron').shell.openExternal(link)
-    }
   }
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Source Sans Pro', sans-serif;
-}
-
-#wrapper {
-  background: white;
-  height: 100vh;
-  padding: 10px 15px;
-  width: 100vw;
-}
-
-header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.table-wrapper {
-  width: 100%;
-  margin-top: 5px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo h1 {
-  margin: 0;
-  margin-right: 10px;
-}
-
-main {
-  display: flex;
-  justify-content: space-between;
-}
-
-.ant-table-body {
-  margin: 0 !important;
-}
 </style>

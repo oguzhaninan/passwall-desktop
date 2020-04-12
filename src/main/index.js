@@ -16,17 +16,16 @@ const winURL =
 
 const iconPath = path.join(__dirname, '..', '..', 'static', 'IconTemplate.png')
 app.on('ready', () => {
-  // const tray = new Tray(iconPath);
+  const tray = new Tray(iconPath);
 
   const mb = menubar({
     browserWindow: { width: 400, height: 400 },
-    index: winURL
-
-    // tray
+    index: winURL,
+    tray
   })
 
   mb.on('ready', () => {
-    console.log('GPass app is ready.')
+    console.log('PassWall app is ready.')
   })
 })
 

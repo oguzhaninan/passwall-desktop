@@ -1,9 +1,9 @@
 {
-  "name": "gpass-desktop",
-  "productName": "GPass",
+  "name": "passwall-desktop",
+  "productName": "PassWall",
   "version": "0.0.1",
   "author": "Oguzhan INAN <oguzhan3488@gmail.com>",
-  "description": "GPass Desktop App",
+  "description": "PassWall Desktop App",
   "license": "Apache 2.0",
   "main": "./dist/electron/main.js",
   "scripts": {
