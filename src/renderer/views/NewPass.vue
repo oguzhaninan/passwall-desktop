@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div class="wrapper">
     <header>
       <div class="logo">
         <a-button
@@ -15,22 +15,24 @@
 
     <hr />
 
-    <div class="login-wrapper">
-      <!-- Error Message -->
-      <a-alert
-        v-if="errorMessage"
-        style="margin-bottom: 10px;"
-        type="error"
-        :message="errorMessage"
-        banner
-      />
+    <div class="new-pass-wrapper">
       <!-- Form -->
       <a-form layout="vertical" :form="form" @submit="handleSubmit">
+        <!-- URL -->
+        <a-form-item
+          label="URL"
+          :validate-status="checkError('URL') ? 'error' : ''"
+          :help="checkError('URL') || ''"
+        >
+          <a-input v-decorator="urlDecorator" placeholder="URL">
+            <a-icon slot="prefix" type="home" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
         <!-- Username -->
         <a-form-item
           label="Username"
-          :validate-status="userNameError() ? 'error' : ''"
-          :help="userNameError() || ''"
+          :validate-status="checkError('Username') ? 'error' : ''"
+          :help="checkError('Username') || ''"
         >
           <a-input v-decorator="usernameDecorator" placeholder="Username">
             <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
@@ -39,17 +41,18 @@
         <!-- Password -->
         <a-form-item
           label="Password"
-          :validate-status="passwordError() ? 'error' : ''"
-          :help="passwordError() || ''"
+          :validate-status="checkError('Password') ? 'error' : ''"
+          :help="checkError('Password') || ''"
         >
           <a-input-password v-decorator="passwordDecorator" placeholder="Password">
             <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+            <a-button slot="addonAfter" icon="lock" @click="generatePass" />
           </a-input-password>
         </a-form-item>
         <!-- Login -->
         <a-form-item style="text-align: right;">
           <a-button type="primary" html-type="submit" :disabled="hasErrors(form.getFieldsError())">
-            Log in
+            Create
           </a-button>
         </a-form-item>
       </a-form>
@@ -64,7 +67,7 @@ function hasErrors(fieldsError) {
 export default {
   data() {
     return {
-      errorMessage: '',
+      urlDecorator: ['URL', { rules: [{ required: true, message: 'Please input your URL!' }] }],
       passwordDecorator: [
         'Password',
         { rules: [{ required: true, message: 'Please input your Password!' }] }
@@ -74,23 +77,37 @@ export default {
         { rules: [{ required: true, message: 'Please input your Username!' }] }
       ],
       hasErrors,
-      form: this.$form.createForm(this, { name: 'login_form' })
+      form: this.$form.createForm(this, { name: 'new_form' })
     }
   },
 
-  methods: {
-    userNameError() {
-      const { getFieldError, isFieldTouched } = this.form
-      return isFieldTouched('Username') && getFieldError('Username')
-    },
+  mounted() {
+    this.$nextTick(() => {
+      this.form.validateFields()
+    })
+  },
 
-    passwordError() {
+  methods: {
+    checkError(field) {
       const { getFieldError, isFieldTouched } = this.form
-      return isFieldTouched('password') && getFieldError('password')
+      return isFieldTouched(field) && getFieldError(field)
     },
 
     clickBack() {
       this.$router.push({ name: 'Home' })
+    },
+
+    async generatePass() {
+      try {
+        const { data } = await this.$http.post('/logins/generate-password')
+        this.form.setFieldsValue({
+          Password: data.Message
+        })
+      } catch (err) {
+        if (err.response && err.response.data.message) {
+          this.$message.error(err.response.data.message)
+        }
+      }
     },
 
     handleSubmit(e) {
@@ -98,11 +115,11 @@ export default {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
-            const { data } = await this.$http.post('/auth/signin', values)
+            const { data } = await this.$http.post('/logins/', values)
             this.$router.push({ name: 'Home' })
           } catch (err) {
             if (err.response && err.response.data.message) {
-              this.errorMessage = err.response.data.message
+              this.$message.error(err.response.data.message)
             }
           }
         }
@@ -115,5 +132,11 @@ export default {
 <style>
 .new-pass-wrapper {
   margin: 20px 50px;
+}
+
+.ant-input-group-addon {
+  background-color: transparent;
+  border: 0;
+  padding-right: 0;
 }
 </style>

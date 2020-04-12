@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div class="wrapper">
     <header>
       <div class="logo">
         <h2>PassWall</h2>
@@ -9,14 +9,6 @@
     <hr />
 
     <div class="login-wrapper">
-      <!-- Error Message -->
-      <a-alert
-        v-if="errorMessage"
-        style="margin-bottom: 10px;"
-        type="error"
-        :message="errorMessage"
-        banner
-      />
       <!-- Form -->
       <a-form layout="vertical" :form="form" @submit="handleSubmit">
         <!-- Username -->
@@ -57,7 +49,6 @@ function hasErrors(fieldsError) {
 export default {
   data() {
     return {
-      errorMessage: '',
       passwordDecorator: [
         'Password',
         { rules: [{ required: true, message: 'Please input your Password!' }] }
@@ -69,6 +60,12 @@ export default {
       hasErrors,
       form: this.$form.createForm(this, { name: 'login_form' })
     }
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.form.validateFields()
+    })
   },
 
   methods: {
@@ -93,7 +90,7 @@ export default {
             this.$router.push({ name: 'Home' })
           } catch (err) {
             if (err.response && err.response.data.message) {
-              this.errorMessage = err.response.data.message
+              this.$message.error(err.response.data.message)
             }
           }
         }

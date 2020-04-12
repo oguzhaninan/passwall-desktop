@@ -23,7 +23,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-#wrapper {
+.wrapper {
   background: white;
   height: 100vh;
   padding: 10px 15px;

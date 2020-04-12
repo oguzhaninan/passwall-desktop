@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div class="wrapper">
     <header>
       <div class="logo">
         <h2>PassWall</h2>
