@@ -1,13 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
-import VTooltip from 'v-tooltip'
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 
 Vue.use(Antd);
-Vue.use(VTooltip)
 Vue.use(VueClipboard)
 
 import App from './App'

@@ -6,11 +6,18 @@
         <a-button shape="circle" size="small" icon="reload" />
       </div>
 
-      <a-button type="primary" shape="round" icon="plus">New Pass</a-button>
+      <a-button type="primary" shape="round" size="small" icon="plus">New Pass</a-button>
     </header>
     <main>
       <div class="table-wrapper">
-        <a-table size="small" :columns="columns" :dataSource="data" rowKey="ID">
+        <a-table
+          size="small"
+          :columns="columns"
+          :dataSource="data"
+          :pagination="{ pageSize: 6 }"
+          :scroll="{ y: 250 }"
+          rowKey="ID"
+        >
           <template slot="Password" slot-scope="text, record">
             <PasswordField :password="record.Password" />
           </template>
@@ -24,6 +31,78 @@
 import PasswordField from './PasswordField'
 
 const data = [
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
+  {
+    ID: '1',
+    URL: 'google.com',
+    Username: 'John Brown',
+    Password: 'parolam'
+  },
   {
     ID: '1',
     URL: 'google.com',
@@ -90,7 +169,7 @@ body {
 #wrapper {
   background: white;
   height: 100vh;
-  padding: 20px;
+  padding: 10px 15px;
   width: 100vw;
 }
 
@@ -103,7 +182,7 @@ header {
 
 .table-wrapper {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .logo {
@@ -119,5 +198,9 @@ header {
 main {
   display: flex;
   justify-content: space-between;
+}
+
+.ant-table-body {
+  margin: 0 !important;
 }
 </style>

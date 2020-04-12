@@ -19,7 +19,7 @@ app.on('ready', () => {
   // const tray = new Tray(iconPath);
 
   const mb = menubar({
-    browserWindow: { width: 1000, height: 1000 },
+    browserWindow: { width: 400, height: 400 },
     index: winURL
 
     // tray

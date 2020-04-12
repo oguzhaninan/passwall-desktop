@@ -1,9 +1,9 @@
 <template>
   <div>
-    {{ showPassword ? password : '• • • • • • • •' }}
-    <a-button type="link" icon="lock" @click="showPassword = !showPassword" />
+    {{ showPassword ? password : '• • • • •' }}
+    <a-button type="link" size="small" icon="lock" @click="showPassword = !showPassword" />
     <a-tooltip placement="top" title="Copy">
-      <a-button type="link" icon="copy" v-clipboard:copy="password" />
+      <a-button type="link" size="small" icon="copy" v-clipboard:copy="password" />
     </a-tooltip>
   </div>
 </template>
