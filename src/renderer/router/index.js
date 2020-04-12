@@ -14,6 +14,11 @@ const router = new Router({
       }
     },
     {
+      path: '/new-pass',
+      name: 'NewPass',
+      component: require('@/views/NewPass').default
+    },
+    {
       path: '/',
       name: 'Home',
       component: require('@/views/Home').default

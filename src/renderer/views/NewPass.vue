@@ -2,7 +2,14 @@
   <div id="wrapper">
     <header>
       <div class="logo">
-        <h2>PassWall</h2>
+        <a-button
+          shape="circle"
+          size="small"
+          icon="arrow-left"
+          @click="clickBack"
+          style="margin-right: 10px;"
+        />
+        <h2>New Pass</h2>
       </div>
     </header>
 
@@ -82,14 +89,16 @@ export default {
       return isFieldTouched('password') && getFieldError('password')
     },
 
+    clickBack() {
+      this.$router.push({ name: 'Home' })
+    },
+
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
             const { data } = await this.$http.post('/auth/signin', values)
-            this.$http.defaults.headers.common.Authorization = `Bearer ${data.token}`
-            localStorage.setItem('token', data.token)
             this.$router.push({ name: 'Home' })
           } catch (err) {
             if (err.response && err.response.data.message) {
@@ -104,11 +113,7 @@ export default {
 </script>
 
 <style>
-.login-wrapper {
+.new-pass-wrapper {
   margin: 20px 50px;
-}
-
-.ant-form-item {
-  margin-bottom: 10px !important;
 }
 </style>

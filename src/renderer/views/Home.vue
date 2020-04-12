@@ -2,19 +2,40 @@
   <div id="wrapper">
     <header>
       <div class="logo">
-        <h1>PassWall</h1>
-        <a-button shape="circle" size="small" icon="reload" />
+        <h2>PassWall</h2>
+        <a-tooltip placement="top" title="Reload">
+          <a-button shape="circle" size="small" icon="reload" @click="fetch" />
+        </a-tooltip>
       </div>
 
-      <a-button type="primary" shape="round" size="small" icon="plus">New Pass</a-button>
+      <div>
+        <a-tooltip placement="top" title="Export">
+          <a-button
+            type="text"
+            icon="vertical-align-bottom"
+            shape="round"
+            size="small"
+            style="margin-right: 5px;"
+            @click="exportLogins"
+          />
+        </a-tooltip>
+        <a-button type="primary" shape="round" size="small" icon="plus" @click="clickNewPass">
+          New
+        </a-button>
+      </div>
     </header>
     <main>
       <div class="table-wrapper">
-        <a-input-search size="small" placeholder="Search URL or Username" style="margin-bottom: 10px;" @search="onSearch" />
+        <a-input-search
+          size="small"
+          placeholder="Search URL or Username"
+          style="margin-bottom: 10px;"
+          v-model="searchText"
+        />
         <a-table
           size="small"
           :columns="columns"
-          :dataSource="data"
+          :dataSource="filteredData"
           :pagination="{ pageSize: 10000, hideOnSinglePage: true }"
           :scroll="{ y: 255 }"
           rowKey="ID"
@@ -29,88 +50,8 @@
 </template>
 
 <script>
+import FileSaver from 'file-saver'
 import PasswordField from '../components/PasswordField'
-
-const data = [
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  },
-  {
-    ID: '1',
-    URL: 'google.com',
-    Username: 'John Brown',
-    Password: 'parolam'
-  }
-]
 
 export default {
   components: {
@@ -119,8 +60,9 @@ export default {
 
   data() {
     return {
+      searchText: '',
       showPassword: false,
-      data,
+      data: [],
       columns: [
         {
           title: 'URL',
@@ -133,6 +75,7 @@ export default {
         {
           title: 'Username',
           dataIndex: 'Username',
+          ellipsis: true,
           sortDirections: ['descend', 'ascend'],
           onFilter: (value, record) => record.Username.indexOf(value) === 0,
           sorter: (a, b) => a.URL.localeCompare(b.URL.length)
@@ -146,10 +89,49 @@ export default {
     }
   },
 
+  async created() {
+    this.fetch()
+  },
+
+  computed: {
+    filteredData() {
+      return this.data.filter(item =>
+        item.URL.toString()
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLocaleLowerCase())
+      )
+    }
+  },
+
   methods: {
+    async fetch() {
+      try {
+        const { data } = await this.$http.get('/logins/')
+        this.data = data
+      } catch (err) {
+        if (err.response && err.response.data.message) {
+          this.$message.error(err.response.data.message)
+        }
+      }
+    },
+
+    clickNewPass() {
+      this.$router.push({ name: 'NewPass' })
+    },
+
+    async exportLogins() {
+      try {
+        const { data } = await this.$http.post('/logins/export')
+        const blob = new Blob([data], { type: 'text/csv' })
+        FileSaver.saveAs(blob, 'PassWall.csv')
+      } catch (err) {
+        if (err.response && err.response.data.message) {
+          this.$message.error(err.response.data.message)
+        }
+      }
+    }
   }
 }
 </script>
 
-<style>
-</style>
+<style></style>

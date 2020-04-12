@@ -35,6 +35,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5px;
 }
 
 .table-wrapper {
@@ -47,14 +48,18 @@ header {
   align-items: center;
 }
 
-.logo h1 {
-  margin: 0;
-  margin-right: 10px;
+.logo h2 {
+  margin: 0 12px 0 0;
 }
 
 main {
   display: flex;
   justify-content: space-between;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #dedede;
 }
 
 .ant-table-body {
