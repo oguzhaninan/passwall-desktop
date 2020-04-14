@@ -23,6 +23,15 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+#loader,
+[v-cloak] > * {
+  display: none;
+}
+
+#app[v-cloak] #loader {
+  display: flex !important;
+}
+
 .wrapper {
   background: white;
   height: 100vh;
@@ -48,8 +57,9 @@ header {
   align-items: center;
 }
 
-.logo h2 {
-  margin: 0 12px 0 0;
+.logo h2,
+#logo {
+  margin: 0 10px 0 0;
 }
 
 main {
@@ -64,5 +74,52 @@ hr {
 
 .ant-table-body {
   margin: 0 !important;
+}
+
+#loader {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.438);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }
 </style>

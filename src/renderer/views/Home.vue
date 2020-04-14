@@ -2,26 +2,36 @@
   <div class="wrapper">
     <header>
       <div class="logo">
-        <h2>PassWall</h2>
+        <img src="../assets/Logo.png" height="30px" id="logo" />
         <a-tooltip placement="top" title="Reload">
           <a-button shape="circle" size="small" icon="reload" @click="fetch" />
         </a-tooltip>
       </div>
 
-      <div>
-        <a-tooltip placement="top" title="Export">
-          <a-button
-            type="text"
-            icon="vertical-align-bottom"
-            shape="round"
-            size="small"
-            style="margin-right: 5px;"
-            @click="exportLogins"
-          />
-        </a-tooltip>
-        <a-button type="primary" shape="round" size="small" icon="plus" @click="clickNewPass">
+      <div class="header-right">
+        <!-- new -->
+        <a-button
+          type="primary"
+          shape="round"
+          size="small"
+          icon="plus"
+          style="margin-right: 5px;"
+          @click="clickNewPass"
+        >
           New
         </a-button>
+        <!-- menu -->
+
+        <a-dropdown>
+          <a-menu slot="overlay" @click="handleMenuClick">
+            <a-menu-item key="export"><a-icon type="vertical-align-bottom" />Export</a-menu-item>
+            <a-menu-item key="logout"><a-icon type="logout" />Logout</a-menu-item>
+            <a-menu-item key="quit"><a-icon type="close" />Quit</a-menu-item>
+          </a-menu>
+          <a-button size="small">
+            <a-icon type="small-dash" />
+          </a-button>
+        </a-dropdown>
       </div>
     </header>
     <main>
@@ -52,6 +62,7 @@
 <script>
 import FileSaver from 'file-saver'
 import PasswordField from '../components/PasswordField'
+const app = require('electron').remote.app
 
 export default {
   components: {
@@ -62,6 +73,8 @@ export default {
     return {
       searchText: '',
       showPassword: false,
+      uploadAction: `${this.$http.defaults.baseURL}import`,
+      uploadHeaders: this.$http.defaults.headers.common,
       data: [],
       columns: [
         {
@@ -89,7 +102,7 @@ export default {
     }
   },
 
-  async created() {
+  created() {
     this.fetch()
   },
 
@@ -104,6 +117,10 @@ export default {
   },
 
   methods: {
+    handleChangeUpload(info) {
+      console.log(info.file, info.fileList)
+    },
+
     async fetch() {
       try {
         const { data } = await this.$http.get('/logins/')
@@ -117,6 +134,25 @@ export default {
 
     clickNewPass() {
       this.$router.push({ name: 'NewPass' })
+    },
+
+    clickLogout() {
+      localStorage.removeItem('token')
+      this.$router.push({ name: 'Login' })
+    },
+
+    handleMenuClick({ key }) {
+      switch (key) {
+        case 'export':
+          this.exportLogins()
+          break
+        case 'logout':
+          this.clickLogout()
+          break
+        case 'quit':
+          app.exit(0)
+          break
+      }
     },
 
     async exportLogins() {
@@ -134,4 +170,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.header-right {
+  display: flex;
+}
+</style>

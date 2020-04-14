@@ -8,18 +8,24 @@ if (process.env.NODE_ENV !== 'development') {
     .replace(/\\/g, '\\\\')
 }
 
-let mainWindow
 const winURL =
   process.env.NODE_ENV === 'development'
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`
 
-const iconPath = path.join(__dirname, '..', '..', 'static', 'IconTemplate.png')
+let iconPath = ''
+
+if (process.env.NODE_ENV === 'development') {
+  iconPath = path.join(__dirname, '..', '..', 'static', 'IconTemplate.png')
+} else {
+  iconPath = path.join(global.__static, 'IconTemplate.png')
+}
+
 app.on('ready', () => {
-  const tray = new Tray(iconPath);
+  const tray = new Tray(iconPath)
 
   const mb = menubar({
-    browserWindow: { width: 400, height: 400 },
+    browserWindow: { width: 400, height: 400, webPreferences: { devTools: false } },
     index: winURL,
     tray
   })
@@ -34,9 +40,3 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-// app.on("activate", () => {
-//   if (mainWindow === null) {
-//     createWindow();
-//   }
-// });

@@ -1,6 +1,8 @@
-# passwall-desktop
+# PassWall Desktop App
 
-> PassWall Desktop App
+<p align="center">
+  <img src="https://raw.githubusercontent.com/pass-wall/passwall-desktop/master/src/assets/Logo.png">
+</p>
 
 #### Build Setup
 
