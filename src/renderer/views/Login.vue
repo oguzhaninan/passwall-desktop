@@ -11,6 +11,12 @@
     <div class="login-wrapper">
       <!-- Form -->
       <a-form layout="vertical" :form="form" @submit="handleSubmit">
+        <!-- Base URL -->
+        <a-form-item label="BaseURL">
+          <a-input v-model="baseURL" placeholder="Base URL">
+            <a-icon slot="prefix" type="global" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
         <!-- Username -->
         <a-form-item
           label="Username"
@@ -49,6 +55,7 @@ function hasErrors(fieldsError) {
 export default {
   data() {
     return {
+      baseURL: 'http://localhost:3625/',
       passwordDecorator: [
         'Password',
         { rules: [{ required: true, message: 'Please input your Password!' }] }
@@ -84,13 +91,21 @@ export default {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
+            if (this.baseURL) {
+              this.$http.defaults.baseURL = this.baseURL
+              localStorage.setItem('baseUrl', this.baseURL)
+            }
+
             const { data } = await this.$http.post('/auth/signin', values)
             this.$http.defaults.headers.common.Authorization = `Bearer ${data.token}`
+
             localStorage.setItem('token', data.token)
             this.$router.push({ name: 'Home' })
-          } catch (err) {
-            if (err.response && err.response.data.message) {
-              this.$message.error(err.response.data.message)
+          } catch (error) {
+            if (!error.response) {
+              this.$message.error(error.message)
+            } else if (error.response.data.message) {
+              this.$message.error(error.response.data.message)
             }
           }
         }

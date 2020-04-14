@@ -25,7 +25,7 @@
           :help="checkError('URL') || ''"
         >
           <a-input v-decorator="urlDecorator" placeholder="URL">
-            <a-icon slot="prefix" type="home" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="global" style="color:rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
         <!-- Username -->
