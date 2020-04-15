@@ -4,6 +4,8 @@
       <div class="logo">
         <h2>PassWall</h2>
       </div>
+      <!-- Quit -->
+      <a-button size="small" shape="round" @click="quitApp">Quit</a-button>
     </header>
 
     <hr />
@@ -49,9 +51,12 @@
 </template>
 
 <script>
+const app = require('electron').remote.app
+
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field])
 }
+
 export default {
   data() {
     return {
@@ -84,6 +89,10 @@ export default {
     passwordError() {
       const { getFieldError, isFieldTouched } = this.form
       return isFieldTouched('password') && getFieldError('password')
+    },
+
+    quitApp() {
+      app.exit(0)
     },
 
     handleSubmit(e) {
