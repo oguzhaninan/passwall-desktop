@@ -2,7 +2,7 @@
   <div class="wrapper">
     <header>
       <div class="logo">
-        <h2>PassWall</h2>
+        <img src="../assets/Logo.png" height="30px" id="logo" />
       </div>
       <!-- Quit -->
       <a-button size="small" shape="round" @click="quitApp">Quit</a-button>
