@@ -108,11 +108,16 @@ export default {
 
   computed: {
     filteredData() {
-      return this.data.filter(item =>
-        item.URL.toString()
-          .toLocaleLowerCase()
-          .includes(this.searchText.toLocaleLowerCase())
-      )
+      const searchText = this.searchText.toLocaleLowerCase()
+
+      return this.data.filter(item => {
+        return ['Username', 'URL'].some(key => {
+          return item[key]
+            .toString()
+            .toLocaleLowerCase()
+            .includes(searchText)
+        })
+      })
     }
   },
 
