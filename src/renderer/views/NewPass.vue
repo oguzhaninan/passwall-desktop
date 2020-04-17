@@ -114,6 +114,7 @@ export default {
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
+          console.log(values)
           try {
             const { data } = await this.$http.post('/logins/', values)
             this.$router.push({ name: 'Home' })
