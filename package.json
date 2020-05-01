@@ -1,10 +1,10 @@
 {
   "name": "passwall-desktop",
   "productName": "passwall-desktop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Oguzhan INAN <oguzhan3488@gmail.com>",
   "description": "PassWall Desktop App",
-  "license": "Apache 2.0",
+  "license": "AGPL-3.0",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js",
