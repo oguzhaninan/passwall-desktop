@@ -62,11 +62,11 @@ export default {
     return {
       baseURL: 'http://localhost:3625/',
       passwordDecorator: [
-        'Password',
+        'password',
         { rules: [{ required: true, message: 'Please input your Password!' }] }
       ],
       usernameDecorator: [
-        'Username',
+        'username',
         { rules: [{ required: true, message: 'Please input your Username!' }] }
       ],
       hasErrors,
@@ -83,7 +83,7 @@ export default {
   methods: {
     userNameError() {
       const { getFieldError, isFieldTouched } = this.form
-      return isFieldTouched('Username') && getFieldError('Username')
+      return isFieldTouched('username') && getFieldError('username')
     },
 
     passwordError() {
@@ -106,9 +106,9 @@ export default {
             }
 
             const { data } = await this.$http.post('/auth/signin', values)
-            this.$http.defaults.headers.common.Authorization = `Bearer ${data.token}`
+            this.$http.defaults.headers.common.Authorization = `Bearer ${data.access_token}`
 
-            localStorage.setItem('token', data.token)
+            localStorage.setItem('token', data.access_token)
             this.$router.push({ name: 'Home' })
           } catch (error) {
             if (!error.response) {

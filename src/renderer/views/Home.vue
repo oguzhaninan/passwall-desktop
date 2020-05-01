@@ -48,10 +48,10 @@
           :dataSource="filteredData"
           :pagination="{ pageSize: 10000, hideOnSinglePage: true }"
           :scroll="{ y: 255 }"
-          rowKey="ID"
+          rowKey="id"
         >
-          <template slot="Password" slot-scope="text, record">
-            <PasswordField :password="record.Password" />
+          <template slot="password" slot-scope="text, record">
+            <PasswordField :password="record.password" />
           </template>
         </a-table>
       </div>
@@ -79,7 +79,7 @@ export default {
       columns: [
         {
           title: 'URL',
-          dataIndex: 'URL',
+          dataIndex: 'url',
           ellipsis: true,
           sortDirections: ['descend', 'ascend'],
           onFilter: (value, record) => record.URL.indexOf(value) === 0,
@@ -87,7 +87,7 @@ export default {
         },
         {
           title: 'Username',
-          dataIndex: 'Username',
+          dataIndex: 'username',
           ellipsis: true,
           sortDirections: ['descend', 'ascend'],
           onFilter: (value, record) => record.Username.indexOf(value) === 0,
@@ -95,8 +95,8 @@ export default {
         },
         {
           title: 'Password',
-          dataIndex: 'Password',
-          scopedSlots: { customRender: 'Password' }
+          dataIndex: 'password',
+          scopedSlots: { customRender: 'password' }
         }
       ]
     }
@@ -111,7 +111,7 @@ export default {
       const searchText = this.searchText.toLocaleLowerCase()
 
       return this.data.filter(item => {
-        return ['Username', 'URL'].some(key => {
+        return ['username', 'url'].some(key => {
           return item[key]
             .toString()
             .toLocaleLowerCase()
@@ -128,7 +128,7 @@ export default {
 
     async fetch() {
       try {
-        const { data } = await this.$http.get('/logins/')
+        const { data } = await this.$http.get('/api/logins')
         this.data = data
       } catch (err) {
         if (err.response && err.response.data.message) {
@@ -162,7 +162,7 @@ export default {
 
     async exportLogins() {
       try {
-        const { data } = await this.$http.post('/logins/export')
+        const { data } = await this.$http.post('/api/logins/export')
         const blob = new Blob([data], { type: 'text/csv' })
         FileSaver.saveAs(blob, 'PassWall.csv')
       } catch (err) {

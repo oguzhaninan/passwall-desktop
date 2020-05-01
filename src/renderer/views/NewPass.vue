@@ -21,8 +21,8 @@
         <!-- URL -->
         <a-form-item
           label="URL"
-          :validate-status="checkError('URL') ? 'error' : ''"
-          :help="checkError('URL') || ''"
+          :validate-status="checkError('url') ? 'error' : ''"
+          :help="checkError('url') || ''"
         >
           <a-input v-decorator="urlDecorator" placeholder="URL">
             <a-icon slot="prefix" type="global" style="color:rgba(0,0,0,.25)" />
@@ -31,8 +31,8 @@
         <!-- Username -->
         <a-form-item
           label="Username"
-          :validate-status="checkError('Username') ? 'error' : ''"
-          :help="checkError('Username') || ''"
+          :validate-status="checkError('username') ? 'error' : ''"
+          :help="checkError('username') || ''"
         >
           <a-input v-decorator="usernameDecorator" placeholder="Username">
             <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
@@ -41,8 +41,8 @@
         <!-- Password -->
         <a-form-item
           label="Password"
-          :validate-status="checkError('Password') ? 'error' : ''"
-          :help="checkError('Password') || ''"
+          :validate-status="checkError('password') ? 'error' : ''"
+          :help="checkError('password') || ''"
         >
           <a-input-password v-decorator="passwordDecorator" placeholder="Password">
             <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
@@ -67,13 +67,13 @@ function hasErrors(fieldsError) {
 export default {
   data() {
     return {
-      urlDecorator: ['URL', { rules: [{ required: true, message: 'Please input your URL!' }] }],
+      urlDecorator: ['url', { rules: [{ required: true, message: 'Please input your URL!' }] }],
       passwordDecorator: [
-        'Password',
+        'password',
         { rules: [{ required: true, message: 'Please input your Password!' }] }
       ],
       usernameDecorator: [
-        'Username',
+        'username',
         { rules: [{ required: true, message: 'Please input your Username!' }] }
       ],
       hasErrors,
@@ -99,9 +99,9 @@ export default {
 
     async generatePass() {
       try {
-        const { data } = await this.$http.post('/logins/generate-password')
+        const { data } = await this.$http.post('/api/logins/generate-password')
         this.form.setFieldsValue({
-          Password: data.Message
+          password: data.message
         })
       } catch (err) {
         if (err.response && err.response.data.message) {
@@ -116,7 +116,7 @@ export default {
         if (!err) {
           console.log(values)
           try {
-            const { data } = await this.$http.post('/logins/', values)
+            const { data } = await this.$http.post('/api/logins', values)
             this.$router.push({ name: 'Home' })
           } catch (err) {
             if (err.response && err.response.data.message) {
