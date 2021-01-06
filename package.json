@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.5.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "file-saver": "^2.0.2",
     "menubar": "^8.0.1",
     "vue": "^2.5.16",
